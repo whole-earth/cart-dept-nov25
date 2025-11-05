@@ -134,6 +134,13 @@ export default function AppShell({ children }: AppShellProps) {
       >
         <ReserveName />
       </div>
+
+      {/* Mobile overlay */}
+      <div className="mobile-overlay">
+        <div className="text-center text-lg">
+          This site is only designed for desktop at the moment
+        </div>
+      </div>
     </div>
   );
 }

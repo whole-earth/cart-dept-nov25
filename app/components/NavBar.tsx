@@ -74,7 +74,7 @@ export default function NavBar({
     ? "border border-white/25 bg-black/60 shadow-[0_30px_80px_rgba(0,0,0,0.65)] backdrop-blur-2xl"
     : "border border-transparent bg-transparent shadow-none backdrop-blur-none";
   const drawerVisible = isMountedState && isDrawerOpen;
-  const containerHeight = drawerVisible ? "min-h-[520px]" : "min-h-[80px]";
+  const containerHeight = drawerVisible ? "h-[520px]" : "h-[80px]";
 
   useEffect(() => {
     if (!drawerVisible) return;
@@ -97,8 +97,8 @@ export default function NavBar({
           ? 'translate(-50%, 1rem)' 
           : 'translate(-50%, calc(50vh - 50%))',
         transition: drawerVisible
-          ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.48s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.48s ease-out 0.24s, background-color 0.48s ease-out 0.24s, box-shadow 0.48s ease-out 0.24s, backdrop-filter 0.48s ease-out 0.24s'
-          : 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.48s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, border-color 0.48s ease-out 0.24s, background-color 0.48s ease-out 0.24s, box-shadow 0.48s ease-out 0.24s, backdrop-filter 0.48s ease-out 0.24s',
+          ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.48s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.48s ease-out 0.24s, background-color 0.48s ease-out 0.24s, box-shadow 0.48s ease-out 0.24s, backdrop-filter 0.48s ease-out 0.24s'
+          : 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.48s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, border-color 0.48s ease-out 0.24s, background-color 0.48s ease-out 0.24s, box-shadow 0.48s ease-out 0.24s, backdrop-filter 0.48s ease-out 0.24s',
       }}
     >
       <div className="relative h-full w-full">
@@ -191,7 +191,7 @@ export default function NavBar({
         </div>
 
         <div
-          className={`absolute inset-0 z-0 flex w-full flex-col items-center justify-between pt-16 text-center text-white ${
+          className={`absolute inset-0 z-0 flex w-full flex-col items-center pt-16 text-center text-white ${
             isMountedState && isDrawerOpen
               ? "pointer-events-auto opacity-100"
               : "pointer-events-none opacity-0"
@@ -202,13 +202,11 @@ export default function NavBar({
               : 'opacity 0.3s ease-out'
           }}
         >
-          <div className="mt-6 w-full">
+          <div className="flex w-full flex-grow items-center justify-center">
             <nav aria-label="Primary">
               <NavList orientation="vertical" items={items} onNavClick={handleNavClick} />
             </nav>
           </div>
-
-          <div className="my-6 h-[300px] w-full rounded-[28px] bg-red-600/80" />
 
           <div className="mb-6 flex flex-col items-center gap-4 text-xs uppercase tracking-[0.3em] text-white/70">
             <div className="flex gap-6">

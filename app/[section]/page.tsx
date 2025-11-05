@@ -5,36 +5,31 @@ const pageCopy: Record<
   { eyebrow: string; heading: string; body: string }
 > = {
   shop: {
-    eyebrow: "Limited Drop",
-    heading: "Shop the custom line",
-    body: "Every month we release a capsule of twenty carts tuned for urban exploration.",
+    eyebrow: "Limited Releases",
+    heading: "Shop the Collection",
+    body: "Shop the exclusive Cart Dept capsule collection.",
   },
-  stories: {
-    eyebrow: "Field Notes",
-    heading: "Stories from the road",
-    body: "Documenting the riders and crews that inspire the studio to keep building wilder machines.",
+  collection: {
+    eyebrow: "The World's Cultural Cars",
+    heading: "The Collection",
+    body: "Cart Dept is the biggest collection of cultural automotives in the world. Because we care about culture.",
   },
-  history: {
-    eyebrow: "Since 1986",
-    heading: "A legacy in motion",
-    body: "From die-cast toys to track-ready builds, Cart has always been obsessed with speed.",
-  },
-  studio: {
-    eyebrow: "Inside the workshop",
-    heading: "Studio tours & residencies",
-    body: "Peek inside the lab in Rotterdam or apply for our residency program to build alongside the team.",
+  events: {
+    eyebrow: "Calendar",
+    heading: "Upcoming Events",
+    body: "Join us for events, automotive exhibitions, and more.",
   },
 };
 
 const shopPlaceholders = [
-  { id: "cart-01", title: "Cart 01", tag: "Urban Scout" },
-  { id: "cart-02", title: "Cart 02", tag: "Night Shift" },
-  { id: "cart-03", title: "Cart 03", tag: "Dock Runner" },
-  { id: "cart-04", title: "Cart 04", tag: "Signal Red" },
-  { id: "cart-05", title: "Cart 05", tag: "Ghost Trim" },
-  { id: "cart-06", title: "Cart 06", tag: "Courier X" },
-  { id: "cart-07", title: "Cart 07", tag: "Canal Spec" },
-  { id: "cart-08", title: "Cart 08", tag: "Late Apex" },
+  { id: "cart-01", title: "Cart 01", tag: "Shirt 01" },
+  { id: "cart-02", title: "Cart 02", tag: "Shirt 02" },
+  { id: "cart-03", title: "Cart 03", tag: "Shirt 03" },
+  { id: "cart-04", title: "Cart 04", tag: "Shirt 04" },
+  { id: "cart-05", title: "Cart 05", tag: "Shirt 05" },
+  { id: "cart-06", title: "Cart 06", tag: "Shirt 06" },
+  { id: "cart-07", title: "Cart 07", tag: "Shirt 07" },
+  { id: "cart-08", title: "Cart 08", tag: "Shirt 08" },
 ];
 
 interface SectionPageProps {
