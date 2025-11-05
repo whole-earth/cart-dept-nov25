@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import ReserveName from "./Form";
 import NavBar, { NavState } from "./NavBar";
@@ -24,34 +24,77 @@ export default function AppShell({ children }: AppShellProps) {
   const initialNavState: NavState = pathname && pathname !== "/" ? "mounted" : "initial";
   const [navState, setNavState] = useState<NavState>(initialNavState);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
-  const [isPageTransitioning, setIsPageTransitioning] = useState(false);
+  const [isPageVisible, setIsPageVisible] = useState(true);
   const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fadeInRafRef = useRef<number | null>(null);
+  const transitionLockRef = useRef(false);
+  const hasRenderedPathnameRef = useRef(false);
   const isHome = pathname === "/";
 
   const ensureMounted = useCallback(() => {
     setNavState((prev) => (prev === "mounted" ? prev : "mounted"));
   }, []);
 
-  const startPageTransition = useCallback((navigate?: () => void, duration = NAV_ANIMATION_MS) => {
-    if (transitionTimerRef.current) {
-      clearTimeout(transitionTimerRef.current);
-    }
+  const startPageTransition = useCallback(
+    (navigate?: () => void, duration = NAV_ANIMATION_MS) => {
+      if (!navigate || transitionLockRef.current) {
+        return;
+      }
 
-    setIsPageTransitioning(true);
-    transitionTimerRef.current = setTimeout(() => {
-      navigate?.();
-      setIsPageTransitioning(false);
-      transitionTimerRef.current = null;
-    }, duration);
-  }, []);
+      if (transitionTimerRef.current) {
+        clearTimeout(transitionTimerRef.current);
+      }
+
+      transitionLockRef.current = true;
+      setIsPageVisible(false);
+
+      transitionTimerRef.current = setTimeout(() => {
+        navigate();
+      }, duration);
+    },
+    []
+  );
 
   useEffect(() => {
     return () => {
       if (transitionTimerRef.current) {
         clearTimeout(transitionTimerRef.current);
       }
+
+      if (fadeInRafRef.current !== null && typeof window !== "undefined") {
+        window.cancelAnimationFrame(fadeInRafRef.current);
+        fadeInRafRef.current = null;
+      }
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (!hasRenderedPathnameRef.current) {
+      hasRenderedPathnameRef.current = true;
+      return;
+    }
+
+    transitionLockRef.current = false;
+
+    if (transitionTimerRef.current) {
+      clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = null;
+    }
+
+    if (typeof window !== "undefined") {
+      fadeInRafRef.current = window.requestAnimationFrame(() => {
+        fadeInRafRef.current = null;
+        setIsPageVisible(true);
+      });
+    }
+
+    return () => {
+      if (fadeInRafRef.current !== null && typeof window !== "undefined") {
+        window.cancelAnimationFrame(fadeInRafRef.current);
+        fadeInRafRef.current = null;
+      }
+    };
+  }, [pathname]);
 
   const effectiveNavState: NavState = useMemo(() => {
     if (navState === "mounted") {
@@ -119,7 +162,7 @@ export default function AppShell({ children }: AppShellProps) {
       >
         <div
           className={`w-full max-w-4xl transition-opacity duration-700 ${
-            isPageTransitioning ? "opacity-0" : "opacity-100"
+            isPageVisible ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
           {children}
